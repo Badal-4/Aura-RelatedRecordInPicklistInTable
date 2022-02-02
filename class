@@ -1,0 +1,42 @@
+public class ContactController
+{
+    @AuraEnabled
+    public static List<sobjectwrapperclass> myAction()
+    {
+      List<sobjectwrapperclass> sobjectwrapper = new List<sobjectwrapperclass>();
+        List<Account> objList = new LIst<Account>();
+        objList = [Select Id,Name,(Select Name from Contacts),(Select Name from Opportunities) from Account Limit 20];
+        for(Account obj : objList)
+        {
+            sobjectwrapperClass wrap = new sobjectwrapperclass();
+            wrap.accName = obj.Name;
+            wrap.accId = obj.Id;
+            wrap.NumberOfContact = obj.contacts.size();
+            wrap.conList = obj.Contacts;
+            wrap.oppList = obj.Opportunities;
+            sobjectwrapper.add(wrap);
+        }
+        if(sobjectwrapper.size()>0)
+        {
+            return sobjectwrapper;
+        }
+        else 
+        {
+            return null;
+        }
+    }
+    //using get set is a shortcut method to use getter setter methods
+    public class sobjectwrapperclass
+    {
+        @AuraEnabled
+        public String accName{get;set;} // used to store name
+        @AuraEnabled
+        public String accId{get;set;} //to store id
+        @AuraEnabled
+        public Integer NumberOfContact{get;set;}//to store number of contacts
+        @AuraEnabled
+        public List<Contact> conList{get;set;}//to store contacts list
+        @AuraEnabled
+        public List<Opportunity> oppList{get;set;}//to store opportunities list
+    }
+}
