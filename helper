@@ -1,0 +1,12 @@
+({  
+    myAction_helper:function(component){
+     var action = component.get("c.myAction");
+        action.setCallback(this,function(response)
+                           {
+                               var storedResponse = response.getReturnValue();
+                               component.set("v.accounts",storedResponse);
+                           });
+        $A.enqueueAction(action);
+    }
+
+ })
