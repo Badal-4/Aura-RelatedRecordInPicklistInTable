@@ -1,0 +1,65 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global"  controller="ContactController" extensible="true">
+     <aura:handler name="init" value="{!this}" action="{!c.action}"/>
+    <aura:attribute name="accounts" type="sObject[]"/>
+    <aura:attribute name="isSelectAll" type="boolean" default="false"/>
+    <div>
+        <!--Header-->
+        <lightning:layout horizontalAlign="spread" multipleRows="true">
+            <lightning:layoutItem flexibility="grow" >
+                <h1 class="modal-header slds-modal__header"  align="center">Accounts Detail</h1>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!--/Header-->
+        
+        <table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_fixed-layout" role="grid">
+            <thead>
+                <tr class="slds-text-title--caps">
+                    <!--Header checkBox-->
+                    <th>
+                        <div class="slds-m-left_medium">
+                            <!--header checkbox for select all-->
+                            <ui:inputCheckbox aura:id="box3" change="{!c.selectAll}"/>
+                            SELECT ALL
+                        </div>
+                    </th>
+                    <!--/Header checkBox-->
+                    <th aria-sort="none"  scope="col">Account Name</th>
+                    <th aria-sort="none" scope="col">Account Id</th>
+                    <th aria-sort="none" scope="col">No Of Contacts</th>
+                    <th aria-sort="none" scope="col">Contacts</th>
+                    <th aria-sort="none"  aria-label="Close Date" scope="col">Opportunities</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.accounts}" var="acct">
+                    <tr class="slds-text-title--caps">
+                        <!--Body checkBox-->
+                        <td>
+                            <div class=" slds-m-left_x-small">
+                                <ui:inputCheckbox text="{!acct.Id}" aura:id="boxPack" value="" change="{!c.checkboxSelect}"/>
+                            </div>
+                        </td>  
+                        <!--/Body checkBox-->
+                        <td class="slds-truncate">{!acct.accName}</td>
+                        <td class="slds-truncate">{!acct.accId}</td>
+                        <td class="slds-truncate">{!acct.NumberOfContact}</td>
+                        <td class="slds-truncate">
+                            <ui:inputSelect class="slds-input">
+                                <aura:iteration items="{!acct.conList}" var="cont">
+                                    <ui:inputSelectOption text="{!cont.Name}" label="{!cont.Name}"/>
+                                </aura:iteration>
+                            </ui:inputSelect>
+                        </td>
+                        <td class="slds-truncate">
+                            <ui:inputSelect class="slds-input">
+                                <aura:iteration items="{!acct.oppList}" var="op">
+                                    <ui:inputSelectOption text="{!op.Name}" label="{!op.Name}"/>
+                                </aura:iteration>
+                            </ui:inputSelect>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+</aura:component>
