@@ -1,0 +1,41 @@
+({
+    action : function(component,event,helper)
+    {
+      console.log('saveData');
+        helper.myAction_helper(component,event,helper);
+    },
+    selectAll: function(c,e,h) {
+  //get the header checkbox value  
+  var selectedHeaderCheck = e.getSource().get("v.value");
+  // get all checkbox on table with "boxPack" aura id (all iterate value have same Id)
+  // return the List of all checkboxs element 
+  var getAllId = c.find("boxPack");
+  // If the local ID is unique[in single record case], find() returns the component. not array   
+     if(! Array.isArray(getAllId)){
+       if(selectedHeaderCheck == true){ 
+          c.find("boxPack").set("v.value", true);
+          c.set("v.selectedCount", 1);
+       }else{
+           c.find("boxPack").set("v.value", false);
+           c.set("v.selectedCount", 0);
+       }
+     }else{
+       // check if select all (header checkbox) is true then true all checkboxes on table in a for loop  
+       // and set the all selected checkbox length in selectedCount attribute.
+       // if value is false then make all checkboxes false in else part with play for loop 
+       // and select count as 0 
+        if (selectedHeaderCheck == true) {
+        for (var i = 0; i < getAllId.length; i++) {
+      c.find("boxPack")[i].set("v.value", true);
+      c.set("v.selectedCount", getAllId.length);
+        }
+        } else {
+          for (var i = 0; i < getAllId.length; i++) {
+      c.find("boxPack")[i].set("v.value", false);
+       c.set("v.selectedCount", 0);
+       }
+       } 
+     }  
+ 
+ },
+})
